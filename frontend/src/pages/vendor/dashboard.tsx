@@ -32,35 +32,15 @@ export default function VendorDashboard() {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-lg shadow p-4">
-          <p className="text-sm text-gray-500">Total Sales</p>
-          <p className="text-2xl font-bold">${Number(dashboard.totalSales).toLocaleString()}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-4">
-          <p className="text-sm text-gray-500">Total Payout</p>
-          <p className="text-2xl font-bold">${Number(dashboard.totalPayout).toLocaleString()}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-4">
-          <p className="text-sm text-gray-500">Rating</p>
-          <p className="text-2xl font-bold">{dashboard.rating} ({dashboard.reviewCount} reviews)</p>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <div className="bg-white rounded-lg shadow p-4">
           <p className="text-sm text-gray-500">Active Products</p>
           <p className="text-2xl font-bold">{activeProducts}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4">
-          <p className="text-sm text-gray-500">Balance</p>
-          <p className="text-2xl font-bold">${(Number(dashboard.totalSales) - Number(dashboard.totalPayout)).toLocaleString()}</p>
-        </div>
       </div>
 
       <div className="flex gap-4">
         <Link to="/vendor/products" className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90">Manage Products</Link>
-        <Link to="/vendor/payouts" className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary/90">Payout History</Link>
       </div>
     </div>
   )

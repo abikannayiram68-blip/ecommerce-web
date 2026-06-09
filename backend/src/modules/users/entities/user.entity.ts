@@ -13,6 +13,9 @@ export class User extends Model {
   @Column({ type: DataType.STRING(255), unique: true, allowNull: false })
   email: string;
 
+  @Column({ type: DataType.STRING(255), allowNull: true })
+  passwordHash: string;
+
   @Column({ type: DataType.STRING(255), allowNull: false })
   name: string;
 
@@ -22,7 +25,7 @@ export class User extends Model {
   @Column({ type: DataType.STRING(20), allowNull: true })
   phone: string;
 
-  @Column({ type: DataType.ENUM('customer', 'admin'), defaultValue: 'customer' })
+  @Column({ type: DataType.ENUM('customer', 'admin', 'vendor'), defaultValue: 'customer' })
   role: string;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: true })

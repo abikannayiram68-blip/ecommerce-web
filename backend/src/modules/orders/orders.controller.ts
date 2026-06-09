@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Param, Body, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { OrdersService } from './orders.service';
 import { CartService } from '../cart/cart.service';
@@ -39,5 +39,14 @@ export class OrdersController {
       return { success: false, error: 'UNAUTHORIZED' };
     }
     return { confirmation: { orderId: order.id, orderNumber: order.orderNumber, items: order.items, total: order.total } };
+  }
+
+  @Put(':id/cancel')
+  async cancelOrder(@CurrentUser() user: any, @Param('id') id: number) {
+    const order = await this.ordersService.findById(id);
+    if (order.userId !== user.id) {
+      return { success: false, error: 'UNAUTHORIZED' };
+    }
+    return this.ordersService.updateStatus(id, 'cancelled', user.id);
   }
 }

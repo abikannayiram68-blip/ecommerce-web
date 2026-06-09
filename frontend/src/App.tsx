@@ -18,10 +18,16 @@ import { NotificationsPage } from './pages/notifications'
 import { AdminPromotions } from './pages/admin/promotions'
 import VendorRegistration from './pages/vendor/register'
 import VendorDashboard from './pages/vendor/dashboard'
-import VendorPayouts from './pages/vendor/payouts'
 import VendorProducts from './pages/vendor/products'
-import Storefront from './pages/stores/storefront'
-import AdminMarketplace from './pages/admin/marketplace'
+import { AnalyticsDashboard } from './pages/admin/analytics'
+import { SalesReports } from './pages/admin/reports'
+import { AdminUsers } from './pages/admin/users'
+import { AdminInventory } from './pages/admin/inventory'
+import { AIAssistant } from './pages/ai-assistant'
+import { LoyaltyPage } from './pages/loyalty'
+import { ReferralPage } from './pages/referrals'
+import { LoginPage } from './pages/login'
+import { RegisterPage } from './pages/register'
 
 function App() {
   return (
@@ -31,11 +37,12 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<ProductListing />} />
             <Route path="/products/:slug" element={<ProductDetail />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/stores/:slug" element={<Storefront />} />
 
             <Route path="/cart" element={<AuthGuard><Cart /></AuthGuard>} />
             <Route path="/checkout" element={<AuthGuard><Checkout /></AuthGuard>} />
@@ -47,12 +54,17 @@ function App() {
 
             <Route path="/vendor/register" element={<AuthGuard><VendorRegistration /></AuthGuard>} />
             <Route path="/vendor/dashboard" element={<AuthGuard><VendorDashboard /></AuthGuard>} />
-            <Route path="/vendor/payouts" element={<AuthGuard><VendorPayouts /></AuthGuard>} />
             <Route path="/vendor/products" element={<AuthGuard><VendorProducts /></AuthGuard>} />
 
             <Route path="/admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
             <Route path="/admin/promotions" element={<AdminGuard><AdminPromotions /></AdminGuard>} />
-            <Route path="/admin/marketplace" element={<AdminGuard><AdminMarketplace /></AdminGuard>} />
+            <Route path="/admin/analytics" element={<AdminGuard><AnalyticsDashboard /></AdminGuard>} />
+            <Route path="/admin/reports" element={<AdminGuard><SalesReports /></AdminGuard>} />
+            <Route path="/admin/users" element={<AdminGuard><AdminUsers /></AdminGuard>} />
+            <Route path="/admin/inventory" element={<AdminGuard><AdminInventory /></AdminGuard>} />
+            <Route path="/ai-assistant" element={<AuthGuard><AIAssistant /></AuthGuard>} />
+            <Route path="/loyalty" element={<AuthGuard><LoyaltyPage /></AuthGuard>} />
+            <Route path="/referrals" element={<AuthGuard><ReferralPage /></AuthGuard>} />
           </Routes>
         </main>
       </div>

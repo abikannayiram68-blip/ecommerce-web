@@ -1,92 +1,104 @@
-File: /project-prompts/PHASES/PHASE_3/STAGES.md
-
-# PHASE 3 — Stages
+# PHASE 3 — Stages (Marketplace Module)
 
 ## Stage 1: Setup
+**REQ-IDs:** REQ-024, REQ-042
+**TEST-IDs:** IT-033-01, IT-042-01
 
 | Step | Action |
 |------|--------|
-| 1 | Design seller database schema (vendors, commissions, payouts) |
-| 2 | Plan multi-currency and international tax handling |
-| 3 | Set up seller-related environment configs |
+| 1    | Configure MinIO product-bucket env configurations |
+| 2    | Set up multi-currency environment base rates config |
 
 ---
 
 ## Stage 2: Architecture
+**REQ-IDs:** REQ-033 to REQ-044
+**TEST-IDs:** IT-033-01 to IT-044-01
 
 | Step | Action |
 |------|--------|
-| 1 | Add VendorModule, CommissionModule, PayoutModule |
-| 2 | Add MarketplaceModule (global admin controls) |
-| 3 | Add VendorStorefrontModule |
-| 4 | Add MultiCurrencyModule, TaxModule |
+| 1    | Add VendorModule, BillingModule, DisputeModule |
+| 2    | Add PayoutModule, MessageModule |
+| 3    | Extend Guards to include multi-tenant Vendor roles |
 
 ---
 
 ## Stage 3: Database
+**REQ-IDs:** REQ-033, REQ-035 to REQ-037, REQ-040 to REQ-043
+**TEST-IDs:** UT-033-01, UT-035-01, UT-036-01, UT-037-01, UT-040-01, UT-041-01, UT-042-01, UT-043-01
 
 | Step | Action |
 |------|--------|
-| 1 | Create Vendor, VendorStore, VendorProduct models |
-| 2 | Create CommissionPlan, Payout, PayoutHistory models |
-| 3 | Create Dispute, VendorMessage models |
-| 4 | Add currency and tax rate tables |
+| 1    | Create Vendor and VendorProduct models |
+| 2    | Create CommissionPlan and Payout models |
+| 3    | Create Dispute and VendorMessage models |
+| 4    | Create Currency and TaxRate models |
 
 ---
 
 ## Stage 4: Backend
+**REQ-IDs:** REQ-033 to REQ-044
+**TEST-IDs:** UT-033-01 to UT-033-03, UT-035-01 to UT-035-03, UT-036-01 to UT-036-02, UT-037-01 to UT-037-02, UT-040-01 to UT-040-02, UT-041-01 to UT-041-03, UT-042-01, UT-043-01, UT-044-01
 
 | Step | Action |
 |------|--------|
-| 1 | Vendor registration and onboarding flow |
-| 2 | Seller dashboard (products, orders, revenue) |
-| 3 | Commission calculation engine |
-| 4 | Payout and settlement system |
-| 5 | Vendor-specific storefront API |
-| 6 | Marketplace admin controls |
-| 7 | Multi-currency pricing and conversion |
-| 8 | International tax calculation |
-| 9 | Dispute resolution system |
-| 10 | Vendor messaging system |
+| 1    | Vendor Onboarding Service + registration logic |
+| 2    | Vendor-specific product overrides & stock management |
+| 3    | Commission calculation engine & payouts processing |
+| 4    | Dispute ticket tracking & resolution routes |
+| 5    | Dynamic international taxation & currency exchange middleware |
+| 6    | Extensible customer feedback aggregating to Vendor Store rating |
+
+**TDD:** For each module: Write UT → Run (fail) → Implement → Run (pass) → Refactor
 
 ---
 
 ## Stage 5: Frontend
+**REQ-IDs:** REQ-033 to REQ-035, REQ-038 to REQ-041, REQ-044
 
 | Step | Action |
 |------|--------|
-| 1 | Seller registration page |
-| 2 | Seller dashboard (products, orders, analytics) |
-| 3 | Vendor storefront pages |
-| 4 | Marketplace admin panel |
-| 5 | Multi-currency checkout UI |
+| 1    | Seller registration and onboard forms |
+| 2    | Seller Dashboard (products list, inventory, metrics) |
+| 3    | Dedicated Vendor Profile storefront view |
+| 4    | Admin control portal (Vendor approval & commission settings) |
+| 5    | Raise Dispute tickets modal |
+| 6    | Chat console (Vendor Messages interface) |
 
 ---
 
 ## Stage 6: State
+**REQ-IDs:** REQ-033 to REQ-035, REQ-040, REQ-041
+
 | Step | Action |
 |------|--------|
-| 1 | Create vendor-store (profile, products, orders, revenue) |
-| 2 | Extend cart-store for multi-currency |
+| 1    | Vendor store (profile, analytics state, loading) |
+| 2    | Vendor product store (inventory listing, product creation) |
+| 3    | Dispute & message state (active channels, messages thread) |
 
 ---
 
 ## Stage 7: Auth
+**REQ-IDs:** REQ-033, REQ-035, REQ-039
+**TEST-IDs:** UT-NFR-006-Phase3
+
 | Step | Action |
 |------|--------|
-| 1 | Add seller role to RBAC |
-| 2 | Vendor-scoped authorization (sellers see only their data) |
+| 1    | Extend RBAC checks to scope queries per active Vendor ID |
+| 2    | Enforce Admin authentication checks on marketplace payout controls |
 
 ---
 
 ## Stage 8: Integration
+**TEST-IDs:** IT-033-01, IT-035-01, IT-036-01, IT-038-01, IT-040-01, IT-041-01, IT-042-01, IT-043-01
 
 | Step | Action |
 |------|--------|
-| 1 | Wire seller registration → approval flow |
-| 2 | Wire commission → payout pipeline |
-| 3 | Test multi-vendor order placement |
-| 4 | Test multi-currency checkout |
+| 1    | Wire seller onboarding form to backend endpoints |
+| 2    | Link Vendor Dashboard actions with image upload to MinIO |
+| 3    | Integrate checkout payment flow with Commission calculation |
+| 4    | Wire Multi-currency and Tax rate selectors in Checkout view |
+| 5    | Connect dispute tickets and chat triggers |
 
 ---
 
@@ -94,10 +106,10 @@ File: /project-prompts/PHASES/PHASE_3/STAGES.md
 
 | Step | Action |
 |------|--------|
-| 1 | Unit tests for commission calculation |
-| 2 | Integration tests for seller onboarding |
-| 3 | E2E tests for multi-vendor purchase flow |
-| 4 | Test currency conversion accuracy |
+| 1    | Run all Phase 3 unit tests |
+| 2    | Run all Phase 3 integration tests |
+| 3    | Verify authorization boundary tests (no cross-vendor editing) |
+| 4    | Validate commission calculation precision |
 
 ---
 
@@ -105,7 +117,7 @@ File: /project-prompts/PHASES/PHASE_3/STAGES.md
 
 | Step | Action |
 |------|--------|
-| 1 | Update Docker services for any new dependencies |
-| 2 | Deploy database migrations |
-| 3 | Update CI/CD pipeline |
-| 4 | Configure multi-currency payment providers |
+| 1    | Generate DB migration script for new schema tables |
+| 2    | Verify MinIO production bucket permissions |
+| 3    | Update local Docker-compose config |
+| 4    | Re-run CI build validation jobs |

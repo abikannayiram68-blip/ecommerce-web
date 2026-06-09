@@ -27,6 +27,27 @@ File: /project-prompts/TESTS/UNIT_TESTS.md
 | **Input** | Valid Google token with email matching existing user |
 | **Expected Output** | { success: true, user: { existing_user_id }, isNew: false, token: "jwt_token" } |
 
+### UT-001-04 — Positive: Email/Password Registration
+| Field | Value |
+|-------|-------|
+| **REQ-ID** | REQ-001 |
+| **Input** | { email: "newuser@test.com", password: "password123", role: "vendor", name: "New Vendor" } |
+| **Expected Output** | { success: true, user: { id, email, role }, token: "jwt_token" } |
+
+### UT-001-05 — Positive: Email/Password Login
+| Field | Value |
+|-------|-------|
+| **REQ-ID** | REQ-001 |
+| **Input** | { email: "newuser@test.com", password: "password123" } |
+| **Expected Output** | { success: true, user: { id, email, role }, token: "jwt_token" } |
+
+### UT-001-06 — Negative: Login with invalid password
+| Field | Value |
+|-------|-------|
+| **REQ-ID** | REQ-001 |
+| **Input** | { email: "newuser@test.com", password: "wrongpassword" } |
+| **Expected Output** | { success: false, error: "INVALID_CREDENTIALS", status: 401 } |
+
 ---
 
 ## REQ-002: Customer Profile Management

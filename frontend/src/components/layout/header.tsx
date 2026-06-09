@@ -36,6 +36,19 @@ export function Header() {
             <Link to="/search" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">Search</Link>
             <Link to="/orders" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">Orders</Link>
 
+            {isAuthenticated && (
+              <>
+                <Link to="/ai-assistant" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
+                  AI Assistant
+                </Link>
+                <Link to="/loyalty" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
+                  Loyalty
+                </Link>
+                <Link to="/referrals" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
+                  Referrals
+                </Link>
+              </>
+            )}
             {vendor ? (
               <Link to="/vendor/dashboard" className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
                 {vendor.storeName}
@@ -90,7 +103,7 @@ export function Header() {
                 <button onClick={logout} className="text-sm font-medium text-secondary-600 hover:text-secondary-700 transition-colors">Logout</button>
               </>
             ) : (
-              <Link to="/" className="rounded-lg bg-gradient-to-r from-primary-600 to-secondary-500 px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-all shadow-sm">
+              <Link to="/login" className="rounded-lg bg-gradient-to-r from-primary-600 to-secondary-500 px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-all shadow-sm">
                 Sign In
               </Link>
             )}

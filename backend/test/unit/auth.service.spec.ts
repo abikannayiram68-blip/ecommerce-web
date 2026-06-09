@@ -37,4 +37,39 @@ describe('AuthService', () => {
     expect(result.success).toBe(true);
     expect(result.isNew).toBe(true);
   });
+
+  describe('Email/Password Auth', () => {
+    it('should register a new user', async () => {
+      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
+      jest.spyOn(usersService, 'create').mockResolvedValue(mockUser as any);
+      
+      const result = await authService.register(
+        'test@example.com',
+        'password123',
+        'Test User',
+        'customer'
+      );
+      
+      expect(result.success).toBe(true);
+      expect(result.token).toBe('mock-jwt-token');
+    });
+
+    it('should fail registration if email exists', async () => {
+      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
+      
+      await expect(authService.register(
+        'test@example.com',
+        'password123',
+        'Test User',
+        'customer'
+      )).rejects.toThrow('User with this email already exists');
+    });
+
+    it('should fail login with invalid email', async () => {
+      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
+      
+      await expect(authService.login('notfound@example.com', 'password123'))
+        .rejects.toThrow('Invalid credentials');
+    });
+  });
 });

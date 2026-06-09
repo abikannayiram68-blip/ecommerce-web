@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GoogleLoginButton } from '../components/auth/google-login-button';
 import { useAuthStore } from '../stores/auth-store';
 import api from '../api/client';
 
@@ -20,8 +19,8 @@ export function Landing() {
 
   useEffect(() => {
     api.get('/categories').then(({ data }) => setCategories(data)).catch(() => {});
-    api.get('/promotions').then(({ data }) => {
-      setPromotions((data || []).filter((p: Promotion) => p.active));
+    api.get('/promotions/active').then(({ data }) => {
+      setPromotions(data || []);
     }).catch(() => {});
   }, []);
 
@@ -52,8 +51,13 @@ export function Landing() {
               Search
             </Link>
             {!isAuthenticated && (
-              <div className="w-64">
-                <GoogleLoginButton />
+              <div className="flex gap-3">
+                <Link to="/login" className="rounded-xl bg-white/20 px-8 py-4 font-semibold text-white hover:bg-white/30 transition-all backdrop-blur-sm">
+                  Sign In
+                </Link>
+                <Link to="/register" className="rounded-xl bg-accent-500 px-8 py-4 font-semibold text-white hover:bg-accent-600 transition-all">
+                  Get Started
+                </Link>
               </div>
             )}
           </div>

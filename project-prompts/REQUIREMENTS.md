@@ -13,9 +13,9 @@ File: /project-prompts/REQUIREMENTS.md
 
 ## FUNCTIONAL REQUIREMENTS — User Module
 
-### REQ-001: Google Authentication
-**Description:** User can register and log in using a Google account.
-**Source:** features_set.md §7, techstack.md §Phase 1
+### REQ-001: User Authentication and Roles
+**Description:** User can register and log in using an Email and Password or a Google account. The system supports three primary roles: customer, admin, and vendor.
+**Source:** features_set.md §7, techstack.md §Phase 1, User Override
 **Priority:** High
 
 ### REQ-002: Customer Profile Management
@@ -179,6 +179,70 @@ File: /project-prompts/REQUIREMENTS.md
 
 ---
 
+## FUNCTIONAL REQUIREMENTS — Phase 3 (Marketplace Module)
+
+### REQ-033: Vendor Registration and Onboarding
+**Description:** Third-party sellers can register as vendors, input store details, and submit for admin approval.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** High
+
+### REQ-034: Vendor Dashboard
+**Description:** Onboarded vendors can view performance analytics, sales charts, recent orders, and quick stats.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** High
+
+### REQ-035: Multi-Vendor Product Management
+**Description:** Vendors can list, edit, archive, and manage pricing/stock levels of their products.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** High
+
+### REQ-036: Commission and Fee Engine
+**Description:** System calculates platform commission and processing fees for vendor orders based on default or customized rates.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** High
+
+### REQ-037: Payout and Settlement System
+**Description:** Platform manages vendor payouts, tracking minimum payout thresholds, unpaid balances, and payout history.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Medium
+
+### REQ-038: Vendor Storefronts
+**Description:** Platform displays dedicated vendor profile pages (storefronts) listing only that vendor's products.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Medium
+
+### REQ-039: Marketplace Admin Control
+**Description:** Platform administrators can view a list of vendors, approve/suspend/reject them, and assign commission plans.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** High
+
+### REQ-040: Dispute Resolution System
+**Description:** Customers, vendors, and admins can raise, track, and resolve disputes regarding vendor orders.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Medium
+
+### REQ-041: Vendor Messaging System
+**Description:** Direct message/chat mechanism between customers/admins and vendors.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Low
+
+### REQ-042: Multi-Currency Support
+**Description:** System supports multiple display currencies with active exchange rates relative to a base currency.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Low
+
+### REQ-043: International Tax Handling
+**Description:** Configuration of tax rates by country and region, applied dynamically at checkout.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Low
+
+### REQ-044: Extended Review System
+**Description:** Product ratings and reviews are aggregated and displayed as a vendor rating on vendor storefronts.
+**Source:** PHASE_3_MARKETPLACE.md §Deliverables
+**Priority:** Medium
+
+---
+
 ## NON-FUNCTIONAL REQUIREMENTS
 
 ### NFR-001: Usability — Intuitive Navigation
@@ -229,9 +293,9 @@ File: /project-prompts/REQUIREMENTS.md
 The platform operates as a single-vendor business. Multi-vendor marketplace features are out of scope.
 **Source:** features_set.md §6 (Out of Scope), features_set.md §12
 
-### CON-002: Google OAuth Primary Authentication
-Google authentication is the primary (and initially only) registration/login method.
-**Source:** features_set.md §10
+### CON-002: Role-Based Email/Password Authentication
+Email/Password authentication is required for customer, admin, and vendor roles, with Google OAuth remaining available.
+**Source:** features_set.md §10, User Override
 
 ### CON-003: Technology Stack
 Backend: Node.js + NestJS + MySQL (Sequelize ORM) + Redis
@@ -303,7 +367,7 @@ When the catalog exceeds threshold sizes, pagination/cursor-based loading must w
 The platform operates as a single-vendor business (no marketplace).
 
 ### ASSUMPTION-002
-Users authenticate primarily through Google OAuth.
+Users authenticate using Email/Password with role-based access, or via Google OAuth.
 
 ### ASSUMPTION-003
 Internet connectivity is available during usage.
@@ -329,7 +393,7 @@ Development and deployment use Docker containerization for environment consisten
 
 | Criterion | Status |
 |-----------|--------|
-| All requirements captured from input | ✅ (32 REQs, 10 NFRs, 6 CONs, 10 ECs, 8 Assumptions) |
+| All requirements captured from input | ✅ (44 REQs, 10 NFRs, 6 CONs, 10 ECs, 8 Assumptions) |
 | No vague statements | ✅ — Each REQ has concrete description and source reference |
 | Proper categorization | ✅ — Functional / Non-Functional / Constraints / Edge Cases / Assumptions |
-| REQ-IDs assigned sequentially | ✅ — REQ-001 to REQ-032 |
+| REQ-IDs assigned sequentially | ✅ — REQ-001 to REQ-044 |

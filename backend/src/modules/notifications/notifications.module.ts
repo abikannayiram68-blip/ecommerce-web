@@ -9,10 +9,9 @@ import { Notification } from './entities/notification.entity';
 @Module({
   imports: [
     SequelizeModule.forFeature([Notification]),
-    BullModule.registerQueue({ name: 'notifications' }),
   ],
   controllers: [NotificationsController],
-  providers: [NotificationsService, NotificationProcessor],
+  providers: [NotificationsService],
   exports: [NotificationsService],
 })
 export class NotificationsModule {}

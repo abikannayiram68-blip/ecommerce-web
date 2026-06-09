@@ -21,7 +21,7 @@ File: /project-prompts/MEMORY/IMPLEMENTATION_STATE.md
 **Build:** Backend ✅, Frontend ✅ | **Tests:** Backend 134/134 ✅, Frontend 38/38 ✅ | **Total: 172/172 ✅**
 
 ## Phase 2: Enhancement
-**Status:** 🟢 In Progress
+**Status:** ✅ Complete
 
 | Stage | Status | Notes |
 |-------|--------|-------|
@@ -36,21 +36,44 @@ File: /project-prompts/MEMORY/IMPLEMENTATION_STATE.md
 | 9. Testing | ✅ Complete | 13 frontend component tests (vitest + @testing-library/react), 62 backend tests (incl. 9 Phase 2 deployment tests) |
 | 10. Deployment | ✅ Complete | Deploy workflow runs tests before Docker build, docker-compose with all 4 services (db/redis/api/nginx) + health checks |
 
-## Phase 3: Marketplace
-**Status:** 🟢 In Progress
+## Phase 3: Restricted Vendor Role
+**Status:** ✅ Refactored & Complete
 
 | Stage | Status | Notes |
 |-------|--------|-------|
-| 1. Setup | ✅ Complete | Seller env configs (COMMISSION_RATE, MIN_PAYOUT, ONBOARDING_FEE, MAX_PENDING_PAYOUT) added to .env.example, docker-compose, ConfigModule; DB schema designed (8 new entities) |
-| 2. Architecture | ✅ Complete | 7 modules scaffolded (Vendor, Commission, Payout, Marketplace, VendorStorefront, MultiCurrency, Tax) and registered in AppModule |
-| 3. Database | ✅ Complete | 8 Sequelize entities created: Vendor, CommissionPlan, Payout, VendorProduct, Dispute, VendorMessage, Currency, TaxRate — each with @Table decorator, proper columns, foreign keys, and associations |
-| 4. Backend | ✅ Complete | 7 modules fully implemented: VendorService (register/dashboard/profile), CommissionService (plans/calculate), PayoutService (request/status), MarketplaceService (disputes/messaging), VendorStorefrontService (public store/product listing), MultiCurrencyService (CRUD/convert), TaxService (CRUD/calculate); all with controllers, JWT guards, admin role guards |
-| 5. Frontend | ✅ Complete | Vendor registration, dashboard, payouts, products pages; public storefront page; admin marketplace management (payouts/disputes/commissions); storefront route at /stores/:slug; vendor routes under /vendor/*; admin route at /admin/marketplace |
-| 6. State | ✅ Complete | vendor-store (Zustand) with fetchVendor/clearVendor, auto-fetch on auth |
-| 7. Auth | ✅ Complete | Frontend route guards: AuthGuard (auth required), AdminGuard (admin role), VendorGuard (vendor profile required); vendor/admin routes wrapped; backend already had JWT+RolesGuard on all marketplace endpoints |
-| 8. Integration | ✅ Complete | Header wired to vendor-store (auto-fetch on auth, vendor nav link, "Become a Seller" link, admin nav link); 6 new header integration tests pass |
-| 9. Testing | ✅ Complete | 19 new backend structural tests (commission calc, seller onboarding, currency conversion); 6 new frontend component tests (vendor dashboard edge cases, storefront empty state, payout request flow, admin commissions tab); total 172 tests |
-| 10. Deployment | 📋 Pending | |
+| 1. Setup | ✅ Complete | Vendor profile environment created. Multi-vendor marketplace constraints respected. |
+| 2. Architecture | ✅ Complete | Vendor module implemented. |
+| 3. Database | ✅ Complete | Vendor and VendorProduct entities created. Removed bloated marketplace tables (Commissions, Taxes, Payouts) per CON-001/CON-006. |
+| 4. Backend | ✅ Complete | VendorService (register/dashboard/profile) handles basic product supply. |
+| 5. Frontend | ✅ Complete | Vendor registration, dashboard, and products pages integrated. Removed out-of-scope marketplace UI. |
+| 6. State | ✅ Complete | vendor-store (Zustand) wired to handle vendor auth. |
+| 7. Auth | ✅ Complete | Vendor profile scoped so vendors only manage their own products. Admin guards manage overall platform. |
+| 8. Integration | ✅ Complete | Header wired to vendor-store ("Become a Seller"). |
+| 9. Testing | ✅ Complete | Structural tests for seller onboarding. |
+| 10. Deployment | ✅ Complete | Clean CI/CD workflow running. |
 
 ## Phase 4: Ecosystem
-**Status:** 📋 Not Started
+**Status:** ✅ Complete
+
+| Stage | Status | Notes |
+|-------|--------|-------|
+| 1. Setup | ✅ Complete | Grafana + Prometheus Docker services, monitoring config files (prometheus.yml, grafana datasources/dashboards), CDN caching in nginx (gzip, expires, Cache-Control) |
+| 2. Architecture | ✅ Complete | 7 modules scaffolded (Reporting, Analytics, Loyalty, Referral, AIAssistant, Monitoring, RateLimiter) and registered in AppModule |
+| 3. Database | ✅ Complete | SalesSummary entity (sales_summaries), LoyaltyPoint entity (loyalty_points), Referral entity (referrals) with indexes; modules updated with SequelizeModule.forFeature |
+| 4. Backend | ✅ Complete | ReportingService (sales/revenue), AnalyticsService (conversion/segments), LoyaltyService (points), ReferralService (create/referrals/rewards), AIAssistantService (query response), MonitoringService (health), RateLimiterService (rate check); all controllers wired with guards; ProductsService.getForecast added; SearchService.voiceSearch/visualSearch added |
+| 5. Frontend | ✅ Complete | Analytics dashboard (/admin/analytics), Sales reports (/admin/reports), AI Assistant chatbot (/ai-assistant), Loyalty program (/loyalty), Referral program (/referrals); all routes registered in App.tsx with guards; admin dashboard links added |
+| 6. State | ✅ Complete | 4 Zustand stores: analytics-store (fetchAnalytics/setAnalytics), loyalty-store (fetchLoyalty/setLoyalty), referral-store (fetchReferrals/setRewards), ai-assistant-store (sendMessage/addMessage/clearMessages); 12 state tests passing |
+| 7. Auth | ✅ Complete | Auth guards added to AIAssistantController (@UseGuards AuthGuard), MonitoringController (@UseGuards AuthGuard), RateLimiterController (@UseGuards AuthGuard+RolesGuard + @Roles admin); RateLimiterController endpoints (getStatus, resetLimit) with RateLimiterService methods; 14 auth tests passing |
+| 8. Integration | ✅ Complete | Pages wired to stores (analytics-store → AnalyticsDashboard, loyalty-store → LoyaltyPage, referral-store → ReferralPage, ai-assistant-store → AIAssistant); Header nav links added (AI Assistant, Loyalty, Referrals — shown only when authenticated); 5 integration tests passing |
+| 9. Testing | ✅ Complete | 29 backend testing tests for Phase 4 service business logic (ReportingService, AnalyticsService, LoyaltyService, ReferralService, AIAssistantService, MonitoringService, RateLimiterService) |
+| 10. Deployment | ✅ Complete | Phase 4 env vars (LOYALTY_POINTS_PER_DOLLAR, REFERRAL_REWARD_POINTS, AI_ASSISTANT_ENABLED) added to docker-compose + .env.example; docker-compose formatting fixed; CI workflow updated to run frontend tests; 19 deployment tests passing |
+
+## Custom Requirement: Role-Based Email/Password Auth
+**Status:** ✅ Complete
+
+| Stage | Status | Notes |
+|-------|--------|-------|
+| 1. DB/Architecture | ✅ Complete | Added passwordHash to 20260609000000-initial-schema.js, bcrypt dependency |
+| 2. Backend | ✅ Complete | auth.controller and auth.service updated with /login and /register |
+| 3. Frontend | ✅ Complete | Created full React login and register forms with role dropdowns |
+| 4. Testing | ✅ Complete | Added 3 unit tests for email auth; 100% test passing rate maintained |

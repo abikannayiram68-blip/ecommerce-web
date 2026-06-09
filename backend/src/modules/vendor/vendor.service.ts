@@ -2,14 +2,60 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/sequelize';
 import { Vendor } from './entities/vendor.entity';
 import { VendorProduct } from './entities/vendor-product.entity';
+import { Product } from '../products/entities/product.entity';
+import { ProductImage } from '../products/entities/product-image.entity';
 import { Op } from 'sequelize';
+
+import { MinioService } from '../minio/minio.service';
 
 @Injectable()
 export class VendorService {
   constructor(
     @InjectModel(Vendor) private vendorModel: typeof Vendor,
     @InjectModel(VendorProduct) private vendorProductModel: typeof VendorProduct,
+    @InjectModel(Product) private productModel: typeof Product,
+    @InjectModel(ProductImage) private productImageModel: typeof ProductImage,
+    private minioService: MinioService,
   ) {}
+
+  async createProduct(vendorId: number, data: any, file?: Express.Multer.File) {
+    const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
+    
+    // Create product
+    const product = await this.productModel.create({
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      stock: data.stock,
+      categoryId: data.categoryId,
+      sku: data.sku || `V${vendorId}-${Date.now()}`,
+      slug,
+      isActive: true,
+    });
+
+    // Create mapping
+    await this.vendorProductModel.create({
+      vendorId,
+      productId: product.id,
+      price: data.price,
+      stock: data.stock,
+      status: 'active',
+    });
+
+    // Create product image if uploaded
+    if (file) {
+      const { url, key } = await this.minioService.uploadFile(file);
+      await this.productImageModel.create({
+        productId: product.id,
+        imageUrl: url,
+        imageKey: key,
+        altText: data.name,
+        isPrimary: true,
+      });
+    }
+
+    return product;
+  }
 
   async create(userId: number, data: Partial<Vendor>) {
     const existing = await this.vendorModel.findOne({ where: { userId } });

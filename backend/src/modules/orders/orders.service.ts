@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException, Inject } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
@@ -13,7 +13,7 @@ export class OrdersService {
     @InjectModel(Order) private orderModel: typeof Order,
     @InjectModel(OrderItem) private orderItemModel: typeof OrderItem,
     @InjectModel(OrderStatusHistory) private orderStatusHistoryModel: typeof OrderStatusHistory,
-    @Inject('SEQUELIZE') private sequelize: Sequelize,
+    private sequelize: Sequelize,
   ) {}
 
   async create(userId: number, cartItems: CartItem[], shippingAddress: object, paymentMethod: string) {
@@ -72,16 +72,19 @@ export class OrdersService {
     return order;
   }
 
-  async findByUser(userId: number, page = 1, limit = 10) {
-    const offset = (page - 1) * limit;
+  async findByUser(userId: number, page: any = 1, limit: any = 10) {
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 10;
+    const offset = (pageNum - 1) * limitNum;
+    
     const { rows, count } = await this.orderModel.findAndCountAll({
       where: { userId },
       include: [OrderItem],
       order: [['createdAt', 'DESC']],
       offset,
-      limit,
+      limit: limitNum,
     });
-    return { orders: rows, total: count, page, totalPages: Math.ceil(count / limit) };
+    return { orders: rows, total: count, page: pageNum, totalPages: Math.ceil(count / limitNum) };
   }
 
   async updateStatus(orderId: number, status: string, changedBy: number) {

@@ -5,7 +5,19 @@ File: /project-prompts/PHASES/PHASE_3_MARKETPLACE.md
 ## Objective
 Transform the platform into a multi-vendor marketplace enabling third-party sellers to register, list products, and manage their own storefronts while the platform owner takes commission.
 
-## New REQ-IDs (To Be Defined)
+## New REQ-IDs (Defined)
+- **REQ-033**: Vendor Registration and Onboarding
+- **REQ-034**: Vendor Dashboard
+- **REQ-035**: Multi-Vendor Product Management
+- **REQ-036**: Commission and Fee Engine
+- **REQ-037**: Payout and Settlement System
+- **REQ-038**: Vendor Storefronts
+- **REQ-039**: Marketplace Admin Control
+- **REQ-040**: Dispute Resolution System
+- **REQ-041**: Vendor Messaging System
+- **REQ-042**: Multi-Currency Support
+- **REQ-043**: International Tax Handling
+- **REQ-044**: Extended Review System
 
 ## Deliverables
 - Seller registration and onboarding

@@ -18,20 +18,25 @@ import { RecommendationsModule } from './modules/recommendations/recommendations
 import { DatabaseModule } from './database/database.module';
 import { RedisModule } from './redis/redis.module';
 import { VendorModule } from './modules/vendor/vendor.module';
-import { CommissionModule } from './modules/commission/commission.module';
-import { PayoutModule } from './modules/payout/payout.module';
-import { MarketplaceModule } from './modules/marketplace/marketplace.module';
-import { VendorStorefrontModule } from './modules/vendor-storefront/vendor-storefront.module';
-import { MultiCurrencyModule } from './modules/multi-currency/multi-currency.module';
-import { TaxModule } from './modules/tax/tax.module';
+import { ReportingModule } from './modules/reporting/reporting.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { LoyaltyModule } from './modules/loyalty/loyalty.module';
+import { ReferralModule } from './modules/referral/referral.module';
+import { AIAssistantModule } from './modules/ai-assistant/ai-assistant.module';
+import { MonitoringModule } from './modules/monitoring/monitoring.module';
+import { RateLimiterModule } from './modules/rate-limiter/rate-limiter.module';
+import { MinioModule } from './modules/minio/minio.module';
+
+import { RateLimiterMiddleware } from './modules/rate-limiter/rate-limiter.middleware';
+import { MiddlewareConsumer, NestModule } from '@nestjs/common';
 
 @Module({
   imports: [
     HealthModule,
-    QueueModule,
+    // QueueModule,
     SearchModule,
     DatabaseModule,
-    RedisModule,
+    // RedisModule,
     AuthModule,
     UsersModule,
     ProductsModule,
@@ -45,12 +50,20 @@ import { TaxModule } from './modules/tax/tax.module';
     AdminModule,
     RecommendationsModule,
     VendorModule,
-    CommissionModule,
-    PayoutModule,
-    MarketplaceModule,
-    VendorStorefrontModule,
-    MultiCurrencyModule,
-    TaxModule,
+    ReportingModule,
+    AnalyticsModule,
+    LoyaltyModule,
+    ReferralModule,
+    AIAssistantModule,
+    MonitoringModule,
+    RateLimiterModule,
+    MinioModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RateLimiterMiddleware)
+      .forRoutes('*');
+  }
+}

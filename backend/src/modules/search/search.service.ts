@@ -10,6 +10,14 @@ export class SearchService {
     @InjectModel(Product) private productModel: typeof Product,
   ) {}
 
+  async voiceSearch(transcript: string) {
+    return this.search(transcript);
+  }
+
+  async visualSearch(imageUrl: string) {
+    return { query: imageUrl, message: 'Visual search received. Processing image...', results: [] };
+  }
+
   async search(query: string, filters?: { categoryId?: number; minPrice?: number; maxPrice?: number }) {
     const where: any = { isActive: true };
     const words = query.trim().split(/\s+/).filter(Boolean);

@@ -28,15 +28,24 @@ export const useWishlistStore = create<WishlistState>((set) => ({
     }
   },
   addItem: async (productId: number) => {
+    set({ loading: true });
     try {
-      const { data } = await api.post('/wishlist', { productId });
-      set((s) => ({ items: [...s.items, data] }));
-    } catch { /* ignore */ }
+      const { data } = await api.post('/wishlist/items', { productId });
+      set({ items: data.items || [], loading: false });
+    } catch (error: any) {
+      set({ loading: false });
+    }
   },
   removeItem: async (productId: number) => {
+    set({ loading: true });
     try {
-      await api.delete(`/wishlist/${productId}`);
-      set((s) => ({ items: s.items.filter((i) => i.productId !== productId) }));
-    } catch { /* ignore */ }
+      await api.delete(`/wishlist/items/${productId}`);
+      set((state) => ({
+        items: state.items.filter((item) => item.productId !== productId),
+        loading: false,
+      }));
+    } catch (error: any) {
+      set({ loading: false });
+    }
   },
 }));

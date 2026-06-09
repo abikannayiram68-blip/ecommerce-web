@@ -145,10 +145,11 @@ orders ────1:N──> order_status_history
 | id | INT | PK, AUTO_INCREMENT |
 | google_id | VARCHAR(255) | UNIQUE, NULLABLE |
 | email | VARCHAR(255) | UNIQUE, NOT NULL |
+| password_hash | VARCHAR(255) | NULLABLE |
 | name | VARCHAR(255) | NOT NULL |
 | avatar | VARCHAR(500) | NULLABLE |
 | phone | VARCHAR(20) | NULLABLE |
-| role | ENUM('customer','admin') | DEFAULT 'customer' |
+| role | ENUM('customer','admin','vendor') | DEFAULT 'customer' |
 | is_active | BOOLEAN | DEFAULT true |
 | created_at | TIMESTAMP | DEFAULT NOW() |
 | updated_at | TIMESTAMP | ON UPDATE NOW() |
@@ -314,6 +315,8 @@ orders ────1:N──> order_status_history
 ### Authentication Module
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
+| POST | /api/auth/register | No | Email/Password Registration |
+| POST | /api/auth/login | No | Email/Password Login |
 | POST | /api/auth/google | No | Google OAuth login/register |
 | POST | /api/auth/refresh | Yes | Refresh JWT token |
 | POST | /api/auth/logout | Yes | Invalidate session |
@@ -411,6 +414,12 @@ ecommerce-platform/
 │   └── workflows/
 │       └── ci.yml
 │
+├── grafana/
+├── nginx/
+├── prometheus/
+├── requirements/
+├── scripts/
+│
 ├── backend/
 │   ├── package.json
 │   ├── tsconfig.json
@@ -447,9 +456,12 @@ ecommerce-platform/
 │   │   │   │   ├── auth.service.ts
 │   │   │   │   ├── strategies/
 │   │   │   │   │   ├── google.strategy.ts
-│   │   │   │   │   └── jwt.strategy.ts
+│   │   │   │   │   ├── jwt.strategy.ts
+│   │   │   │   │   └── local.strategy.ts
 │   │   │   │   └── dto/
-│   │   │   │       └── google-login.dto.ts
+│   │   │   │       ├── google-login.dto.ts
+│   │   │   │       ├── register.dto.ts
+│   │   │   │       └── login.dto.ts
 │   │   │   │
 │   │   │   ├── users/
 │   │   │   │   ├── users.module.ts
@@ -629,7 +641,9 @@ ecommerce-platform/
 │   │   │   │   ├── order-card.tsx
 │   │   │   │   └── order-tracking.tsx
 │   │   │   ├── auth/
-│   │   │   │   └── google-login-button.tsx
+│   │   │   │   ├── google-login-button.tsx
+│   │   │   │   ├── login-form.tsx
+│   │   │   │   └── register-form.tsx
 │   │   │   └── admin/
 │   │   │       ├── admin-sidebar.tsx
 │   │   │       ├── stats-card.tsx

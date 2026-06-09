@@ -8,6 +8,7 @@ interface Product {
   price: number;
   categoryId?: number;
   description?: string;
+  images?: { imageUrl: string }[];
 }
 
 interface ProductCardProps {
@@ -15,7 +16,9 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addItem, removeItem, items } = useWishlistStore();
+  const items = useWishlistStore((state) => state.items);
+  const addItem = useWishlistStore((state) => state.addItem);
+  const removeItem = useWishlistStore((state) => state.removeItem);
   const isWishlisted = items.some((i) => i.productId === product.id);
 
   const toggleWishlist = (e: React.MouseEvent) => {
@@ -40,8 +43,12 @@ export function ProductCard({ product }: ProductCardProps) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       </button>
-      <div className="aspect-square rounded-lg bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center">
-        <span className="text-4xl text-primary-300">✦</span>
+      <div className="aspect-square rounded-lg bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center overflow-hidden">
+        {product.images && product.images.length > 0 ? (
+          <img src={product.images[0].imageUrl} alt={product.name} className="h-full w-full object-cover" />
+        ) : (
+          <span className="text-4xl text-primary-300">✦</span>
+        )}
       </div>
       <h3 className="mt-4 font-semibold text-gray-800 group-hover:text-primary-600 transition-colors">{product.name}</h3>
       <p className="mt-1 text-lg font-bold text-primary-600">${product.price}</p>

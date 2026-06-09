@@ -4,6 +4,7 @@ import { OrdersService } from '../../src/modules/orders/orders.service';
 import { Order } from '../../src/modules/orders/entities/order.entity';
 import { OrderItem } from '../../src/modules/orders/entities/order-item.entity';
 import { OrderStatusHistory } from '../../src/modules/orders/entities/order-status-history.entity';
+import { Sequelize } from 'sequelize-typescript';
 
 describe('OrdersService', () => {
   let service: OrdersService;
@@ -24,7 +25,7 @@ describe('OrdersService', () => {
         { provide: getModelToken(Order), useValue: orderModel },
         { provide: getModelToken(OrderItem), useValue: {} },
         { provide: getModelToken(OrderStatusHistory), useValue: {} },
-        { provide: 'SEQUELIZE', useValue: mockSequelize },
+        { provide: Sequelize, useValue: mockSequelize },
       ],
     }).compile();
 

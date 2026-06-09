@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Delete, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductsService } from './products.service';
 
 @Controller('products')
@@ -26,5 +27,31 @@ export class ProductsController {
   @Get(':slug')
   async findBySlug(@Param('slug') slug: string) {
     return this.productsService.findBySlug(slug);
+  }
+
+  @Post(':id/images')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadImage(
+    @Param('id') id: number,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB limit
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg|webp)' }),
+        ],
+      }),
+    ) file: Express.Multer.File,
+  ) {
+    return this.productsService.uploadImage(id, file);
+  }
+
+  @Delete(':id/images/:imageId')
+  async deleteImage(@Param('id') id: number, @Param('imageId') imageId: number) {
+    return this.productsService.deleteImage(id, imageId);
+  }
+
+  @Get(':id/images')
+  async getImages(@Param('id') id: number) {
+    return this.productsService.getImages(id);
   }
 }

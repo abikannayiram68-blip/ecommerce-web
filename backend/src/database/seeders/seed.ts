@@ -1,8 +1,13 @@
 import { NestFactory } from '@nestjs/core';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+
 import { AppModule } from '../../app.module';
 import { User } from '../../modules/users/entities/user.entity';
 import { Category } from '../../modules/categories/entities/category.entity';
 import { Product } from '../../modules/products/entities/product.entity';
+import { ProductImage } from '../../modules/products/entities/product-image.entity';
 import { Promotion } from '../../modules/promotions/entities/promotion.entity';
 
 async function seed() {
@@ -37,6 +42,17 @@ async function seed() {
   ]);
   console.log('Created products:', products.length);
 
+  await ProductImage.bulkCreate([
+    { productId: products[0].id, imageUrl: '/images/wireless_headphones_1780994025805.png', imageKey: 'seed/wireless-headphones.png', altText: 'Wireless Headphones', isPrimary: true },
+    { productId: products[1].id, imageUrl: '/images/smart_watch_1780994038507.png', imageKey: 'seed/smart-watch.png', altText: 'Smart Watch', isPrimary: true },
+    { productId: products[2].id, imageUrl: '/images/cotton_tshirt_1780994050727.png', imageKey: 'seed/cotton-tshirt.png', altText: 'Cotton T-Shirt', isPrimary: true },
+    { productId: products[3].id, imageUrl: '/images/denim_jeans_1780994064123.png', imageKey: 'seed/denim-jeans.png', altText: 'Denim Jeans', isPrimary: true },
+    { productId: products[4].id, imageUrl: '/images/indoor_plant_pot_1780994081635.png', imageKey: 'seed/indoor-plant-pot.png', altText: 'Indoor Plant Pot', isPrimary: true },
+    { productId: products[5].id, imageUrl: '/images/yoga_mat_1780994093810.png', imageKey: 'seed/yoga-mat.png', altText: 'Yoga Mat', isPrimary: true },
+    { productId: products[6].id, imageUrl: '/images/running_shoes_1780994109266.png', imageKey: 'seed/running-shoes.png', altText: 'Running Shoes', isPrimary: true },
+    { productId: products[7].id, imageUrl: '/images/javascript_guide_1780994121889.png', imageKey: 'seed/javascript-guide.png', altText: 'JavaScript Guide', isPrimary: true },
+  ]);
+  console.log('Created product images');
   await Promotion.create({
     name: 'Summer Sale',
     code: 'SUMMER20',

@@ -11,7 +11,13 @@ export class ProductImage extends Model {
   product: Product;
 
   @Column({ type: DataType.STRING(500), allowNull: false })
-  url: string;
+  imageUrl: string;
+
+  @Column({ type: DataType.STRING(500), allowNull: false })
+  imageKey: string;
+
+  @Column({ type: DataType.STRING(500), allowNull: true })
+  thumbnailUrl: string;
 
   @Column({ type: DataType.STRING(255), allowNull: true })
   altText: string;

@@ -34,4 +34,9 @@ export class UsersService {
     });
     return { customers: rows, total: count, page, totalPages: Math.ceil(count / limit) };
   }
+
+  async remove(id: number): Promise<void> {
+    const user = await this.findById(id);
+    await user.destroy();
+  }
 }

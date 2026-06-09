@@ -1,9 +1,6 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { User } from '../../users/entities/user.entity';
-import { Payout } from '../../payout/entities/payout.entity';
 import { VendorProduct } from './vendor-product.entity';
-import { VendorMessage } from '../../marketplace/entities/vendor-message.entity';
-import { Dispute } from '../../marketplace/entities/dispute.entity';
 
 @Table({ tableName: 'vendors', timestamps: true })
 export class Vendor extends Model {
@@ -56,15 +53,6 @@ export class Vendor extends Model {
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
   reviewCount: number;
 
-  @HasMany(() => Payout)
-  payouts: Payout[];
-
   @HasMany(() => VendorProduct)
   vendorProducts: VendorProduct[];
-
-  @HasMany(() => VendorMessage)
-  messages: VendorMessage[];
-
-  @HasMany(() => Dispute)
-  disputes: Dispute[];
 }

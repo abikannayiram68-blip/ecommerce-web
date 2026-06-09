@@ -3,10 +3,11 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ReviewsService } from './reviews.service';
 import { ReviewsController } from './reviews.controller';
 import { Review } from './entities/review.entity';
+import { Order } from '../orders/entities/order.entity';
 import { ProductsModule } from '../products/products.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Review]), ProductsModule],
+  imports: [SequelizeModule.forFeature([Review, Order]), ProductsModule],
   controllers: [ReviewsController],
   providers: [ReviewsService],
 })

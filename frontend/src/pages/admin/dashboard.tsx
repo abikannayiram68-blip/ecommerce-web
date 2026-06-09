@@ -36,6 +36,26 @@ export function AdminDashboard() {
               <h3 className="mt-2 font-semibold text-accent-700">Promotions</h3>
               <p className="text-sm text-accent-500">Manage discounts & offers</p>
             </Link>
+            <Link to="/admin/analytics" className="rounded-xl border border-primary-200 bg-primary-50 p-5 text-center hover:shadow-md transition-all hover:-translate-y-0.5">
+              <span className="text-3xl">📊</span>
+              <h3 className="mt-2 font-semibold text-primary-700">Analytics</h3>
+              <p className="text-sm text-primary-500">Conversion & segments</p>
+            </Link>
+            <Link to="/admin/reports" className="rounded-xl border border-secondary-200 bg-secondary-50 p-5 text-center hover:shadow-md transition-all hover:-translate-y-0.5">
+              <span className="text-3xl">📈</span>
+              <h3 className="mt-2 font-semibold text-secondary-700">Reports</h3>
+              <p className="text-sm text-secondary-500">Sales & revenue</p>
+            </Link>
+            <Link to="/admin/users" className="rounded-xl border border-purple-200 bg-purple-50 p-5 text-center hover:shadow-md transition-all hover:-translate-y-0.5">
+              <span className="text-3xl">👥</span>
+              <h3 className="mt-2 font-semibold text-purple-700">Users</h3>
+              <p className="text-sm text-purple-500">Manage users & vendors</p>
+            </Link>
+            <Link to="/admin/inventory" className="rounded-xl border border-orange-200 bg-orange-50 p-5 text-center hover:shadow-md transition-all hover:-translate-y-0.5">
+              <span className="text-3xl">📦</span>
+              <h3 className="mt-2 font-semibold text-orange-700">Inventory</h3>
+              <p className="text-sm text-orange-500">Global stock checking</p>
+            </Link>
           </div>
         </div>
       </div>

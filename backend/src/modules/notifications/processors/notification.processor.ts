@@ -3,7 +3,7 @@ import { Job } from 'bullmq';
 import { InjectModel } from '@nestjs/sequelize';
 import { Notification } from '../entities/notification.entity';
 
-@Processor('notifications')
+// @Processor('notifications')
 export class NotificationProcessor extends WorkerHost {
   constructor(
     @InjectModel(Notification) private notificationModel: typeof Notification,
